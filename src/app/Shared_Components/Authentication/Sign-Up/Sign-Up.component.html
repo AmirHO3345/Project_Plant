@@ -1,0 +1,68 @@
+<section class="Permission Section--StartPage" *ngIf="!this.ViewVerify">
+  <div class="Permission__Container Container">
+    <div class="Permission__Box Permission__Box--Sign_Up">
+      <h1>
+        <span class="Permission__Box--Primary-Head">Sign Up</span>
+        <span class="Permission__Box--Secondary-Head">Register Here To Join Us</span>
+      </h1>
+      <form #Sign_Up='ngForm'>
+        <div class="Permission__Box--Input">
+          <div class="Input-Text NoBorder" [ngClass]="{Input_Wrong:(this.Error_Occur.Error_Name == this.Error_Type().First_Name)}">
+            <i class="fa-solid fa-user Input_Icon"></i>
+            <input type="text" placeholder="Enter First Name"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().PersonFirstName]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+          <div class="Input-Text NoBorder" [ngClass]="{Input_Wrong:(this.Error_Occur.Error_Name == this.Error_Type().Last_Name)}">
+            <i class="fa-solid fa-user Input_Icon"></i>
+            <input type="text" placeholder="Enter Last Name"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().PersonLastName]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+          <div class="Input-Text NoBorder" [ngClass]="{Input_Wrong:(this.Error_Occur.Error_Name == this.Error_Type().Email)}">
+            <i class="fa-regular fa-envelope Input_Icon"></i>
+            <input type="email" placeholder="Enter Your Email"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().PersonEmail]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+          <div class="Input-Text NoBorder" [ngClass]="{Input_Wrong:(this.Error_Occur.Error_Name == this.Error_Type().Password)}">
+            <i class="fa-solid fa-key Input_Icon"></i>
+            <input type="password" placeholder="Enter Your Password"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().PersonPassword]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+        </div>
+        <button class="Permission__Box--Button Global-Button"
+                (click)="this.Register(Sign_Up)" [disabled]="this.Loading_Process"
+                [ngClass]="{Disable : Loading_Process}">Sing Up</button>
+        <div class="Permission__Box--Text">
+          <div class="Permission__Box--Option Login_Register">
+            <p class="Global_Paragraph">You Already Have Account ?
+              <span><a [routerLink]="['/Authentication' , 'SignIn']">Sign-In Here</a></span></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="PopUp PopUp--View_Error"
+       [ngClass]="{Show_PopUp : this.Error_Occur.Error_View}" >
+    <div class="PopUp__Overlay">
+      <div class="PopUp__Container">
+        <div class="PopUp__Title">
+          <h1> Input Error !</h1>
+          <i class="fa-sharp fa-solid fa-xmark Global_Icon" (click)="this.Error_Occur.Error_View = false"></i>
+        </div>
+        <div class="PopUp__Content">
+          <p class="Global_Paragraph">{{ this.Error_Occur.Error_Content }}</p>
+        </div>
+        <div class="PopUp__Buttons">
+          <button class="Global-Button PopUp__Off" (click)="this.Error_Occur.Error_View = false">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<Verify *ngIf="this.ViewVerify"
+        [DataReceive]="{Type:this.TypeVerify().Complete_Process,Email:this.Email}"
+        (SendResult)="this.VerifyResult($event)"
+></Verify>

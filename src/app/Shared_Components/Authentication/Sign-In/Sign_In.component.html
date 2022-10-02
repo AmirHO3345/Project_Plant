@@ -1,0 +1,68 @@
+<section class="Permission Section--StartPage" *ngIf="!this.ViewVerify">
+  <div class="Permission__Container Container">
+    <div class="Permission__Box Permission__Box--Sign_In">
+      <h1>
+        <span class="Permission__Box--Primary-Head">Sign In</span>
+        <span class="Permission__Box--Secondary-Head">Sign In To Define Permissions</span>
+      </h1>
+      <form #Sign_In='ngForm'>
+        <div class="Permission__Box--Input">
+          <div class="Input-Text NoBorder" [ngClass]="{Input_Wrong : (this.Error_Occur.Error_Name == this.Error_Type().Email) }">
+            <i class="fa-regular fa-envelope Input_Icon"></i>
+            <input type="email" placeholder="Enter Your Email"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().PersonEmail]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+          <div class="Input-Text NoBorder" [ngClass]="{Input_Wrong : (this.Error_Occur.Error_Name == this.Error_Type().Password) }">
+            <i class="fa-solid fa-key Input_Icon"></i>
+            <input type="password" placeholder="Enter Your Password"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().PersonPassword]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+          <div class="Input_CheckBox">
+            <input id="Remember_Pass" type="checkbox"
+                   value="Remember-Pass" ngModel [name]="this.Input_Type()[this.Input_Type().KeepSignIn]" />
+            <label for="Remember_Pass">
+              <i class="fa-solid fa-check"></i>
+              Keep Me Logged in
+            </label>
+          </div>
+        </div>
+        <button class="Permission__Box--Button Global-Button"
+                (click)="this.Login(Sign_In)" [disabled]="this.Loading_Process"
+                [ngClass]="{Disable : Loading_Process}">Login</button>
+        <div class="Permission__Box--Text">
+          <div class="Permission__Box--Option Login_Register">
+            <p class="Global_Paragraph">You Don't Have Any Account ? <span>
+              <a [routerLink]="['/Authentication' , 'SignUp']">Register Here</a></span></p>
+          </div>
+          <div class="Permission__Box--Option Forget_Password">
+            <p class="Global_Paragraph">You Forget Password !?
+              <span><a [routerLink]="['/Authentication' , 'RecoverAccount']">Reset Here</a></span></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="PopUp PopUp--View_Error"
+       [ngClass]="{Show_PopUp : this.Error_Occur.Error_View}" >
+    <div class="PopUp__Overlay">
+      <div class="PopUp__Container">
+        <div class="PopUp__Title">
+          <h1> Input Error !</h1>
+          <i class="fa-sharp fa-solid fa-xmark Global_Icon" (click)="this.Error_Occur.Error_View = false"></i>
+        </div>
+        <div class="PopUp__Content">
+          <p class="Global_Paragraph">{{ this.Error_Occur.Error_Content }}</p>
+        </div>
+        <div class="PopUp__Buttons">
+          <button class="Global-Button PopUp__Off" (click)="this.Error_Occur.Error_View = false">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<Verify *ngIf="this.ViewVerify"
+        [DataReceive]="{Type:this.TypeVerify().Complete_Process,Email:this.Email}"
+        (SendResult)="this.VerifyResult($event)"
+></Verify>

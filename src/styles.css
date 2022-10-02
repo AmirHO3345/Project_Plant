@@ -1,0 +1,421 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+/* Start Variable */
+
+:root {
+  --Main-Color : #12b44f ;
+  --Border_Break-Color : #d2d2d296 ;
+  --Error-Color : #ff0000e3 ;
+  --Move_Slow : .8s ;
+  --Move_Middel : .5s ;
+  --Move_Speed : .2s ;
+  --Body-Color : #f5f6f7 ;
+  --Paragraph-Color : #423f3fcc ;
+  --DropDown_Button_Color : #dddadad6 ;
+  --ButtonDisable-Color : #222327 ;
+  --Overlay-Color : #000 ;
+  --Padding-Section : 30px ;
+}
+
+/* End Variable */
+
+/* Start Global Rule */
+
+* {
+  margin: 0 ;
+  padding: 0 ;
+  box-sizing: border-box ;
+  -moz-box-sizing: border-box ;
+  -webkit-box-sizing: border-box ;
+}
+
+body {
+  font-family : "Inter" , sans-serif ;
+  /*------------- Temp ----------------*/
+  height : 5000px ;
+}
+
+ul {
+  list-style: none ;
+}
+
+a {
+  text-decoration : none ;
+}
+
+h1 , h2 , h3 ,
+h4 , h5 , h6 {
+  margin-top: 0 ;
+}
+
+.visible-xs ,
+.visible-sm ,
+.visible-md ,
+.visible-lg {
+  display: none ;
+}
+
+.hidden-xs ,
+.hidden-sm ,
+.hidden-md ,
+.hidden-lg {
+  display: initial ;
+}
+
+.Container {
+  margin : 0 auto ;
+  padding : 0 15px ;
+}
+
+.Global_Paragraph {
+  line-height: 2 ;
+}
+
+.Global-Button {
+  border: none;
+  text-align: center ;
+  border-radius: 6px;
+  text-transform: uppercase;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--Move_Middel);
+}
+
+.Global_Logo {
+  height: 40px;
+}
+
+.Global_Icon {
+  width: 35px;
+  height: 35px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all var(--Move_Speed) ;
+}
+
+.Switch_Button {
+  display: none ;
+}
+
+.No-Scroll::-webkit-scrollbar {
+  display: none ;
+}
+
+.No-Scroll {
+  -ms-overflow-style: none ;
+}
+
+input::-webkit-outer-spin-button ,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none ;
+  margin: 0 ;
+}
+
+@media (max-width: 767px) {
+  .Container {
+    width: 100% ;
+  }
+
+  .visible-xs {
+    display : initial !important;
+  }
+
+  .hidden-xs {
+    display : none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .Container {
+    width: 750px;
+  }
+
+  .visible-sm {
+    display : initial !important;
+  }
+
+  .hidden-sm {
+    display : none !important ;
+  }
+}
+
+@media (min-width: 992px) {
+  .Container {
+    width: 970px;
+  }
+
+  .visible-md {
+    display : initial !important;
+  }
+
+  .hidden-md {
+    display : none !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .Container {
+    width: 1170px;
+  }
+
+  .visible-lg {
+    display : initial !important;
+  }
+
+  .hidden-lg {
+    display : none !important;
+  }
+}
+
+/* End Global Rule */
+
+/* Start Component */
+
+  /* Sections */
+
+  .Section {
+    padding-bottom: var(--Padding-Section) ;
+    padding-top : var(--Padding-Section) ;
+  }
+
+  .Section--StartPage {
+    padding-bottom: calc(var(--Padding-Section) + 30px) ;
+    padding-top : calc(var(--Padding-Section) + 30px) ;
+  }
+
+  .Section__Header {
+    position: relative ;
+    display: block ;
+    width : 100% ;
+    text-align: center ;
+    margin-bottom: 50px ;
+  }
+
+  .Section__Header h1 {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 100;
+    text-transform: uppercase;
+    color: var(--Main-Color);
+    padding: 25px 0;
+    letter-spacing: -1px ;
+  }
+
+  .Section__Header h1::after {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 5px;
+    background-color: var(--Main-Color);
+    left: 50%;
+    bottom: 0;
+    border-radius: 50px;
+    transform: translateX(-50%);
+  }
+
+  /* Drop Down */
+
+  .Drop-Down {
+    position: absolute;
+    background-color: #fff;
+    padding: 10px 8px 8px 8px;
+    border-radius: 8px;
+    box-shadow: 3px 5px 11px #00000036;
+    transition: all var(--Move_Middel) ;
+    visibility: hidden ;
+    opacity: 0 ;
+    z-index: 2 ;
+  }
+
+  /* CheckBox Switch */
+
+  .Switch_Button:checked ~ .Drop-Down {
+    opacity: 1 ;
+    visibility: visible ;
+  }
+
+  /* Input Field */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+  }
+
+  .Input-Text {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .Input-Text input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    padding: 0 30px;
+    font-size: 16px;
+    font-weight: 500 ;
+    transition: all 0.3s ease;
+  }
+
+  .Input-Text.WithBorder input {
+    border-radius: 10px ;
+    border : 2px solid rgba(0,0,0,0.2);
+    background-color: #f2f2f2 ;
+  }
+
+  .Input-Text.NoBorder input {
+    border: none ;
+    border-bottom : 2px solid rgba(0,0,0,0.2);
+  }
+
+  .Input-Text input:focus,
+  .Input-Text input:valid {
+    border-color: var(--Main-Color) ;
+  }
+
+  .Input-Text i.Input_Icon {
+    position: absolute;
+    color: var(--Main-Color) ;
+    font-size: 17px;
+  }
+
+  .Input-Text.NoBorder i.Input_Icon {
+    left : 0 ;
+  }
+
+  .Input-Text.WithBorder i.Input_Icon {
+    left : 10px ;
+  }
+
+  .Input-Text i.Input_Error {
+    position: absolute ;
+    top : 50% ;
+    color : var(--Error-Color) ;
+    transform: translateY(-50%);
+    display: none ;
+  }
+
+  .Input-Text.NoBorder i.Input_Error {
+    right : 5px ;
+  }
+
+  .Input-Text.WithBorder i.Input_Error {
+    right : 10px ;
+  }
+
+  .Input-Text.Input_Wrong i.Input_Error {
+    display: initial ;
+  }
+
+  .Input_CheckBox input[type="checkbox"] {
+    display: none ;
+  }
+
+  .Input_CheckBox label {
+    display: flex ;
+    align-items: center ;
+    gap : 10px ;
+  }
+
+  .Input_CheckBox label i {
+    border : 1px solid var(--Main-Color) ;
+    padding: 2px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 14px;
+    transition: all var(--Move_Middel) ;
+  }
+
+  .Input_CheckBox input:checked + label i {
+    background-color: var(--Main-Color) ;
+  }
+
+  /* Pup Up */
+
+  .PopUp .PopUp__Overlay {
+    position: fixed ;
+    top : 0 ;
+    left: 0 ;
+    width : 100% ;
+    height : 100vh ;
+    opacity: 0 ;
+    visibility: hidden ;
+    background-color: rgba(34, 35, 39, 0.86);
+    transition: all var(--Move_Speed) ;
+  }
+
+  .PopUp.Show_PopUp .PopUp__Overlay {
+    opacity: 1 ;
+    visibility: visible ;
+  }
+
+  .PopUp .PopUp__Container {
+    position: absolute ;
+    top : 50% ;
+    left : 50% ;
+    transform: translate(-50% , calc(-50% - 100px));
+    background-color: #fff ;
+    border-radius: 10px ;
+    width: 500px;
+    max-width: 100%;
+    opacity: 0 ;
+    visibility: hidden;
+    transition: all var(--Move_Slow) ;
+  }
+
+  .PopUp__Container .PopUp__Title .Global_Icon {
+    cursor: pointer ;
+    border-radius: 50% ;
+  }
+
+  .PopUp__Container .PopUp__Title .Global_Icon:hover {
+    background-color: var(--Main-Color) ;
+    color: #fff ;
+  }
+
+  .PopUp.Show_PopUp .PopUp__Overlay .PopUp__Container {
+    opacity: 1 ;
+    visibility: visible ;
+    transform: translate(-50% , -50%);
+  }
+
+  .PopUp .PopUp__Title ,
+  .PopUp .PopUp__Content ,
+  .PopUp .PopUp__Buttons {
+    padding: 16px ;
+  }
+
+  .PopUp .PopUp__Title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--ButtonDisable-Color);
+  }
+
+  .PopUp .PopUp__Title h1 {
+    margin : 0;
+    font-weight: 600;
+    font-size: 25px;
+  }
+
+  .PopUp .PopUp__Content {
+    border-top : 1px solid var(--Border_Break-Color) ;
+    border-bottom : 1px solid var(--Border_Break-Color) ;
+  }
+
+  .PopUp .PopUp__Buttons .Global-Button {
+    display: block;
+    padding: 10px 30px;
+    margin-left: auto;
+  }
+
+  /* Spinner Loader */
+
+/* End Component */

@@ -1,0 +1,56 @@
+<section class="Permission Section--StartPage" *ngIf="!ViewVerify">
+  <div class="Permission__Container Container">
+    <div class="Permission__Box Permission__Box--RecoverAccount">
+      <h1>
+        <span class="Permission__Box--Primary-Head">Recover Account</span>
+        <span class="Permission__Box--Secondary-Head">Follow The Steps Below To Recover The Account</span>
+      </h1>
+      <form #RecoverAccount='ngForm' *ngIf="this.UI_View == this.GetUIType().WriteEmail">
+        <div class="Permission__Box--Input">
+          <div class="Input-Text NoBorder" [ngClass]="{Input_Wrong : (this.Error_Occur.Error_Name == this.Error_Type().Email) }">
+            <i class="fa-regular fa-envelope Input_Icon"></i>
+            <input type="email" placeholder="Enter Your Email"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().PersonEmail]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+        </div>
+        <button class="Permission__Box--Button Global-Button"
+                (click)="this.SendEmail(RecoverAccount)" [disabled]="this.Loading_Process"
+                [ngClass]="{Disable : Loading_Process}">Send</button>
+      </form>
+      <form #RecoverAccount='ngForm' *ngIf="this.UI_View == this.GetUIType().WritePassword">
+        <div class="Permission__Box--Input">
+          <div class="Input-Text NoBorder" [ngClass]="{Input_Wrong : (this.Error_Occur.Error_Name == this.Error_Type().Password) }">
+            <i class="fa-regular fa-envelope Input_Icon"></i>
+            <input type="password" placeholder="Enter New Password"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().PersonPassword]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+        </div>
+        <button class="Permission__Box--Button Global-Button"
+                (click)="this.ChangePassword(RecoverAccount)" >Change</button>
+      </form>
+    </div>
+  </div>
+  <div class="PopUp PopUp--View_Error"
+       [ngClass]="{Show_PopUp : this.Error_Occur.Error_View}" >
+    <div class="PopUp__Overlay">
+      <div class="PopUp__Container">
+        <div class="PopUp__Title">
+          <h1> Input Error !</h1>
+          <i class="fa-sharp fa-solid fa-xmark Global_Icon" (click)="this.Error_Occur.Error_View = false"></i>
+        </div>
+        <div class="PopUp__Content">
+          <p class="Global_Paragraph">{{ this.Error_Occur.Error_Content }}</p>
+        </div>
+        <div class="PopUp__Buttons">
+          <button class="Global-Button PopUp__Off" (click)="this.Error_Occur.Error_View = false">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<Verify *ngIf="this.ViewVerify"
+        [DataReceive]="{Type:this.TypeVerify().Forget_Password,Email:this.Email}"
+        (SendResult)="this.VerifyResult($event)"
+></Verify>

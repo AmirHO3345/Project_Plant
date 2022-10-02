@@ -1,0 +1,161 @@
+
+/* Start Permission */
+
+.Permission {
+  position: relative ;
+  background-image: url(../../Images/Farmer.png) ;
+  background-repeat: no-repeat ;
+  background-size: contain ;
+  background-position: bottom right;
+  height : 100vh ;
+}
+
+.Permission::before {
+  content: "" ;
+  position: absolute ;
+  width : 100% ;
+  height : 100% ;
+  background-color: var(--Body-Color) ;
+  top : 0 ;
+  left : 0 ;
+  z-index: -1 ;
+}
+
+.Permission__Container {
+  display: flex ;
+  justify-content: flex-start ;
+}
+
+.Permission__Box {
+  background-color: #fff ;
+  padding: 30px ;
+  border-radius: 8px ;
+  box-shadow: 5px 5px 16px #0000005e;
+}
+
+.Permission__Box--Sign_In ,
+.Permission__Box--Sign_Up ,
+.Reset_Password {
+  flex-basis: 40% ;
+}
+
+.Permission__Box h1 {
+  margin-bottom: 40px ;
+  margin-top: 0 ;
+  text-align: center ;
+  position: relative ;
+}
+
+.Permission__Box h1 .BackPageIcon {
+  position: absolute ;
+  top: 0;
+  left: -20px;
+}
+
+.Permission__Box h1 .BackPageIcon i {
+  border-radius: 50% ;
+  color : var(--Main-Color) ;
+}
+
+.Permission__Box h1 .BackPageIcon i:hover {
+  background-color: var(--Main-Color) ;
+  color : #fff ;
+}
+
+.Permission__Box--Primary-Head {
+  display: block;
+  color: var(--Main-Color);
+  font-size: 30px ;
+  font-weight: 600;
+  letter-spacing: -1px ;
+}
+
+.Permission__Box--Secondary-Head {
+  font-size: 16px;
+  font-weight: normal;
+  color: #423f3fcc;
+}
+
+.Permission__Box form {
+  text-align: center ;
+}
+
+.Permission__Box form > div ,
+.Permission__Box form > button {
+  position: relative ;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.Permission__Box--Input > div:not(:last-child) {
+  margin-bottom: 20px ;
+}
+
+.Permission__Box--Input .Input_CheckBox {
+  margin-top: 35px ;
+}
+
+.Permission__Box--Input .Input_CheckBox label {
+  gap : 11px ;
+}
+
+.Permission__Box--Button {
+  color : #fff ;
+  font-weight: 800 ;
+  padding: 11px 30px ;
+  margin-bottom: 30px ;
+  background-color: var(--Main-Color) ;
+}
+
+.Permission__Box--Button.Disable {
+  background-color: #12B44F98 ;
+}
+
+.Permission__Box--Text .Permission__Box--Option:not(:last-child) {
+  margin-bottom : 15px ;
+}
+
+.Permission__Box--Text p {
+  font-size: 15px ;
+  color : var(--Paragraph-Color) ;
+  text-align: center ;
+}
+
+.Permission__Box--Text p span ,
+.Permission__Box--Text p span a {
+  color : var(--Main-Color) ;
+  cursor: pointer ;
+}
+
+.PopUp .PopUp__Content .Global_Paragraph {
+  color: var(--Paragraph-Color);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.PopUp .PopUp__Buttons .Global-Button {
+  background-color: #6c757d3d;
+  color : #000 ;
+}
+
+.PopUp .PopUp__Buttons .Global-Button:hover {
+  background-color: var(--Main-Color) ;
+  color : #fff ;
+}
+
+@media (max-width: 991px) {
+
+  .Permission {
+    background-image: none ;
+  }
+
+  .Permission__Container {
+    justify-content: center ;
+  }
+
+  .Permission__Box {
+    flex-basis: 100% ;
+  }
+}
+
+/* End Permission */

@@ -1,0 +1,47 @@
+<section class="Permission Section--StartPage">
+  <div class="Permission__Container Container">
+    <div class="Permission__Box Permission__Box--Verify">
+      <h1>
+        <span class="Permission__Box--Primary-Head">Verify</span>
+        <span class="Permission__Box--Secondary-Head">We Send Code To Your Email</span>
+        <span class="BackPageIcon"><i class="fa-sharp fa-solid fa-left-long Global_Icon"
+                                      (click)="this.BackPage()"></i></span>
+      </h1>
+      <form #Verify='ngForm'>
+        <div class="Permission__Box--Input">
+          <div class="Input-Text WithBorder">
+            <input type="number" placeholder="Enter Code"
+                   ngModel [name]="this.Input_Type()[this.Input_Type().CodeVerify]" required />
+            <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+          </div>
+        </div>
+        <button class="Permission__Box--Button Global-Button"
+                (click)="this.VerifyCode(Verify)" [disabled]="this.Loading_Process"
+                [ngClass]="{Disable : Loading_Process}">Verify</button>
+        <div class="Permission__Box--Text">
+          <div class="Permission__Box--Option Login_Register">
+            <p class="Global_Paragraph">If You Don't Recive Code ?
+              <span><a (click)="this.ReSendCode()">Re-Send Code</a></span></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="PopUp PopUp--View_Error"
+       [ngClass]="{Show_PopUp : this.Error_Occur.Error_View}" >
+    <div class="PopUp__Overlay">
+      <div class="PopUp__Container">
+        <div class="PopUp__Title">
+          <h1> Input Error !</h1>
+          <i class="fa-sharp fa-solid fa-xmark Global_Icon" (click)="this.Error_Occur.Error_View = false"></i>
+        </div>
+        <div class="PopUp__Content">
+          <p class="Global_Paragraph">{{ this.Error_Occur.Error_Content }}</p>
+        </div>
+        <div class="PopUp__Buttons">
+          <button class="Global-Button PopUp__Off" (click)="this.Error_Occur.Error_View = false">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

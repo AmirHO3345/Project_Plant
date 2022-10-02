@@ -1,0 +1,478 @@
+/* Start Navigation-Menu */
+
+  .Navigation-Menu {
+    position: absolute ;
+    width : 100% ;
+    left : 50% ;
+    top : 0 ;
+    z-index: 1;
+    transform: translateX(-50%);
+  }
+
+  .Navigation-Menu.Scrolling {
+    position: fixed ;
+    background-color: #fff ;
+    box-shadow: #00000042 0 0 20px;
+  }
+
+  .Navigation-Menu__Container {
+    position: relative ;
+    display: flex;
+    justify-content: space-between ;
+    align-items: center;
+  }
+
+  .Navigation-Menu--PC .ButtonIcon {
+  border-left: 2px solid var(--Border_Break-Color);
+  padding-left: 30px;
+}
+
+  .Navigation-Menu__ButtonIcon {
+    display: flex;
+    gap: 20px;
+  }
+
+  .Navigation-Menu__ButtonIcon > div {
+    position: relative ;
+  }
+
+  .Navigation-Menu__ButtonIcon > div label .Global_Icon {
+    color : var(--Main-Color) ;
+    border-radius: 50px ;
+    cursor: pointer ;
+  }
+
+  .Navigation-Menu__ButtonIcon > div label .Global_Icon:hover ,
+  .Navigation-Menu__ButtonIcon > div .Switch_Button:checked ~ label .Global_Icon {
+    color : #fff ;
+    background-color: var(--Main-Color) ;
+  }
+
+  .Navigation-Menu__ButtonIcon > div .Drop-Down {
+    top: 100% ;
+    right: 0 ;
+    transform: translateY(-10px);
+  }
+
+  .Navigation-Menu__ButtonIcon > div .Drop-Down .Arrow_Icon {
+    position: absolute;
+    top: -18px;
+    right: 10px;
+    font-size: 30px;
+    color: var(--Main-Color);
+  }
+
+  .Navigation-Menu__ButtonIcon > div .Switch_Button:checked ~ .Drop-Down {
+    transform: translateY(20px);
+  }
+
+  .ButtonIcon--UserImage img {
+    width: 35px;
+    border-radius: 50%;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .Drop-Down--Notification {
+    width: 400px ;
+  }
+
+  .Notification-Box > .Switch_Button:checked ~ .Drop-Down--Notification {
+    transform: translateY(20px);
+  }
+
+  .Drop-Down--Notification .Notification-Content {
+    height : 50vh ;
+    overflow: hidden ;
+    overflow-y: scroll ;
+  }
+
+  .Notification-Content .Notification-Loading {
+    padding: 10px ;
+  }
+
+  .Notification-Content .Notification-Loading .Spinner_Loader::after {
+    width: 30px;
+    height: 30px;
+    border-width: 6px;
+  }
+
+  .Notification-Content .Notification-Finish {
+    font-size: 13px;
+    text-align: center;
+    padding: 20px 10px;
+    text-transform: capitalize;
+    color: var(--Paragraph-Color);
+  }
+
+  .Drop-Down--Notification .Notification-More {
+    text-align: center ;
+    padding: 20px 10px 10px 10px ;
+    border-top: 1px solid rgb(147 147 147 / 44%) ;
+  }
+
+  .Drop-Down--Notification .Notification-More a {
+    color: var(--Main-Color);
+    font-weight: 500;
+    padding: 10px ;
+  }
+
+  .Notification-Piece {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px ;
+    cursor: pointer ;
+    transition: all var(--Move_Middel);
+  }
+
+  .Notification-Piece:not(:last-child)::after {
+    content: "" ;
+    position: absolute ;
+    width : 100% ;
+    height : 1px ;
+    background-color: var(--Border_Break-Color) ;
+    bottom: 0 ;
+    left : 0 ;
+  }
+
+  .Notification-Piece:hover {
+    background-color: #e1e1e178 ;
+  }
+
+  .Notification-Piece:last-child {
+    border-bottom : none ;
+  }
+
+  .Notification-Piece__Image img {
+    width: 60px;
+    border-radius: 50%;
+  }
+
+  .Notification-Piece__Title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000000c7;
+    margin-bottom : 9px ;
+  }
+
+  .Notification-Piece__Body {
+    color: var(--Paragraph-Color);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .Notification-Piece__Date {
+    position: absolute;
+    font-size: 11px;
+    top: 6px;
+    right: 6px;
+    color: #00000063;
+  }
+
+  @media (min-width: 992px) {
+
+    .Navigation-Menu__Nav-Icon {
+      flex : 1 ;
+      display: flex ;
+      justify-content: flex-end ;
+      align-items: center ;
+      gap : 35px ;
+    }
+
+  }
+
+  @media (max-width: 991px) {
+
+    .Navigation-Menu {
+      position: fixed ;
+      background-color: #fff ;
+      box-shadow: #00000042 0 0 20px;
+    }
+
+    .Navigation-Menu__Container {
+      padding: 10px 0 ;
+    }
+
+    .Drop-Down--Notification {
+      width : 80vw ;
+      right : 0 ;
+    }
+
+  }
+
+  /* Start PC_Menu */
+
+  .Navigation-Menu:not(.Scrolling) .Navigation-Menu__Container::after {
+    content: "" ;
+    position: absolute ;
+    width : 100% ;
+    height : 1px ;
+    background-color: var(--Border_Break-Color) ;
+    bottom: 0 ;
+    left : 0 ;
+  }
+
+  .Drop-Down--Language li ,
+  .Drop-Down--User li {
+    display: block;
+    width : 200px ;
+    max-width: 100% ;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    color: var(--Paragraph-Color);
+    cursor: pointer;
+    transition: all var(--Move_Middel) ;
+  }
+
+  .Drop-Down--Language li:hover ,
+  .Drop-Down--User li:hover {
+    color: white;
+    background-color: var(--Main-Color);
+  }
+
+  .Navigation-Menu__NavPage ul {
+    display: flex ;
+  }
+
+  .Navigation-Menu__NavPage ul li {
+    position: relative ;
+  }
+
+  .Navigation-Menu__NavPage ul li::after {
+    content: "" ;
+    position: absolute ;
+    bottom: 0 ;
+    left : 50% ; /**/
+    width: 0 ;
+    height: 1px ;
+    z-index: 1 ;
+    background-color: var(--Main-Color) ;
+    transition: all var(--Move_Middel) ;
+  }
+
+  .Navigation-Menu__NavPage ul li:hover::after ,
+  .Navigation-Menu__NavPage ul li.Active::after {
+    width : 100% ;
+    left : 0 ;
+  }
+
+  .Navigation-Menu__NavPage ul li a {
+    position: relative ;
+    display: block;
+    padding: 30px 20px ;
+    color : var(--ButtonDisable-Color) ;
+    font-size: 15px ;
+    font-weight: 700 ;
+    transition: all var(--Move_Middel) ;
+  }
+
+  .Navigation-Menu__NavPage ul li.Active a ,
+  .Navigation-Menu__NavPage ul li a:hover {
+    color : var(--Main-Color) ;
+  }
+
+  /* End PC_Menu */
+
+  /* Start Mobile_Menu */
+
+  .Mobile_Buttons {
+    position: fixed ;
+    background-color: #fff ;
+    left : 0 ;
+    bottom: 0;
+    z-index: 1 ;
+    width : 100% ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 2px 20px #00000078;
+  }
+
+  .Mobile_Buttons ul {
+    position: relative ;
+    display: flex ;
+    width : 100% ;
+  }
+
+  .Mobile_Buttons ul li {
+    flex : 1 ;
+  }
+
+  .Mobile_Buttons ul .Button_Page a ,
+  .Mobile_Buttons ul .Button_Menu label {
+    position: relative ;
+    display: flex;
+    justify-content: center ;
+    align-items: center ;
+    flex-direction: column;
+    text-align: center ;
+    gap : 10px ;
+    cursor: pointer ;
+    color : #222327;
+    padding: 11px 0;
+    transition: all var(--Move_Middel) ;
+  }
+
+  .Mobile_Buttons ul .Button_Page a:hover ,
+  .Mobile_Buttons ul .Button_Menu:active {
+    color : var(--Main-Color) ;
+  }
+
+  .Mobile_Buttons ul .Button_Page a.Active {
+    background-color : var(--Main-Color) ;
+    color : #fff ;
+  }
+
+  .Mobile_Buttons ul .Icon_Part {
+    font-size: 15px ;
+  }
+
+  .Mobile_Buttons ul .Text_Part {
+    font-size: 10px ;
+  }
+
+  .MorePage_Menu .Switch_Button:checked ~ .Side_Menu {
+    transform: translateX(0);
+  }
+
+  .Side_Menu {
+    position: fixed ;
+    width: 300px;
+    max-width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1 ;
+    transition: all var(--Move_Slow) ;
+    transform: translateX(calc(-100% - 30px));
+  }
+
+  .Side_Menu::before {
+    content: "" ;
+    position: fixed ;
+    visibility: hidden ;
+    overflow: hidden ;
+    width: 200vw ;
+    height: 100%;
+    z-index: 0 ;
+    opacity: 0 ;
+    background-color: #00000080;
+    transition: all var(--Move_Middel) ;
+  }
+
+  .MorePage_Menu .Switch_Button:checked ~ .Side_Menu::before {
+    visibility: visible ;
+    opacity: 1 ;
+  }
+
+  .Side_Menu .Menu {
+    position: relative ;
+    width: 100% ;
+    height : 100% ;
+    background-color: #fff ;
+  }
+
+  .Menu .Menu__Main_Content {
+    position: relative ;
+    width: 100% ;
+    height : 100% ;
+  }
+
+  .Menu .Menu__Close {
+    position: absolute;
+    top: 10px;
+    right: -17px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00000070;
+    border-radius: 50%;
+  }
+
+  .Menu .Menu__Close i {
+    right: 0;
+    top: 0 ;
+    border-radius: 50%;
+    color : var(--Main-Color) ;
+    background-color: #fff;
+  }
+
+  .Menu .Menu__Close i:hover {
+    background-color: var(--Main-Color) ;
+    color : #fff ;
+  }
+
+  .Menu .Menu__Title {
+    text-align: center;
+    margin: 0 0 15px 0;
+    padding: 13px 10px;
+    border-bottom: 1px solid var(--Border_Break-Color);
+    font-size: 25px;
+    font-weight: 600;
+    color: #5d5d5d ;
+    text-transform: uppercase ;
+  }
+
+  .Menu .Menu__Main_List {
+    padding: 15px 20px;
+  }
+
+  .Menu .Menu__Main_List ul {
+    visibility: hidden ;
+    max-height: 0 ;
+    opacity: 0;
+    overflow: hidden ;
+    background-color: var(--DropDown_Button_Color) ;
+    border-radius: 8px ;
+    margin-bottom: 0 ;
+    transition: all var(--Move_Speed) ;
+  }
+
+  .Menu .Menu__Button_Fill {
+    display: block ;
+    padding: 12px 10px ;
+    width: 100% ;
+    margin-bottom: 10px ;
+    border-radius: 8px ;
+    font-size: 17px ;
+    cursor: pointer ;
+    transition: all var(--Move_Slow) ;
+    color: var(--Paragraph-Color) ;
+  }
+
+  .Menu .Menu__Button label {
+    display: flex;
+    position: relative ;
+    align-items: center ;
+    justify-content: space-between ;
+  }
+
+  .Menu .Menu__DropDown label i {
+    transform: rotate(0);
+    transition: all var(--Move_Middel);
+  }
+
+  .Menu .Menu__Button_Fill:hover ,
+  .Menu .Menu__DropDown .Switch_Button:checked ~ .Menu__Button_Fill {
+    background-color: var(--Main-Color) ;
+    color : white ;
+  }
+
+  .Menu .Menu__DropDown .Switch_Button:checked ~ label i {
+    transform: rotate(90deg);
+    transition: all var(--Move_Speed);
+  }
+
+  .Menu .Menu__DropDown .Switch_Button:checked ~ ul {
+    padding : 10px 20px ;
+    max-height: 100vh ;
+    opacity: 1 ;
+    margin-bottom: 10px ;
+    visibility: visible ;
+  }
+
+  /* End Mobile_Menu */
+
+/* End Navigation-Menu */
