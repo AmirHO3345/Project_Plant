@@ -126,6 +126,7 @@ export enum ErrorType {
   Email ,
   Password ,
   Code ,
+  Phone ,
   Token
 }
 

@@ -4,7 +4,7 @@ import {FormControl, NgForm} from "@angular/forms";
 import {Person} from "../../../Models/Person.model";
 import {Process_State} from "../../../Models/Data_Sharing.model";
 import {AuthenticationFieldsModel, Input_Names} from "../../../Models/AuthenticationFields.model";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SendResult} from "../Verify/Verify.component";
 
 @Component({

@@ -3,7 +3,7 @@ import {FormControl, NgForm} from "@angular/forms";
 import {AuthenticationService} from "../Authentication.service";
 import {Process_State} from "../../../Models/Data_Sharing.model";
 import {AuthenticationFieldsModel, Input_Names} from "../../../Models/AuthenticationFields.model";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SendResult} from "../Verify/Verify.component";
 
 @Component({
@@ -13,7 +13,7 @@ import {SendResult} from "../Verify/Verify.component";
 export class Sign_InComponent extends AuthenticationFieldsModel {
 
   constructor(private AuthenticationProcesses : AuthenticationService ,
-              private RouterPage : Router) {
+              private RouterPage : Router ) {
     super();
   }
 
@@ -31,7 +31,7 @@ export class Sign_InComponent extends AuthenticationFieldsModel {
     this.AuthenticationProcesses.SignIn(Email , Password , Keep_SignIn).subscribe(Value => {
       switch (Value.Result) {
         case Process_State.Succeed :
-          /* Route To Another Page */
+          this.RouterPage.navigate(['/Profile']);
           break ;
         case Process_State.Failed :
           if(Value.Data_Fail) {

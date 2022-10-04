@@ -8,11 +8,13 @@ export class Data_SharingModel {
       case Pattern_Type.Email :
         return "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$" ;
       case Pattern_Type.Password :
-        return "^[0-9]{6}" ;
+        return "" ;
       case Pattern_Type.First_Name :
-        return " " ;
+        return "" ;
       case Pattern_Type.Last_Name :
-        return " " ;
+        return "" ;
+      case Pattern_Type.Phone :
+        return "^[0-9]{10}"
     }
   }
 
@@ -30,4 +32,5 @@ export enum Pattern_Type {
   Password ,
   First_Name ,
   Last_Name ,
+  Phone
 }

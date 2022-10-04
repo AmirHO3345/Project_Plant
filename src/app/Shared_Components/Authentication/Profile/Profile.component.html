@@ -1,0 +1,75 @@
+<section class="Section My_Profile">
+  <div class="Section__Header My_Profile__Header">
+    <h1>My Profile</h1>
+  </div>
+  <div class="Container My_Profile__Container">
+    <div class="My_Profile__ImageUser">
+      <div class="My_Profile__ImageUser">
+          <input type="file" id="Change_Image_User" class="Switch_Button" accept="image/jpeg , image/png"
+                 (change)="this.CheckImageDetails($event)"
+          />
+        <img src="https://elzerowebschool.github.io/HTML_And_CSS_Template_Two/images/skills-01.jpg"
+             alt="User Image" />
+        <ul>
+          <li class="Edit">
+            <label for="Change_Image_User">
+              <i class="fa-solid fa-pen-to-square Global_Icon"></i>
+            </label>
+          </li>
+          <li class="Remove"><i class="fa-solid fa-trash Global_Icon"
+              (click)="this.FormattingRemovePhoto()"></i></li>
+        </ul>
+      </div>
+<!--        <img [src]="this.MyAccount.Get_Information().Image"-->
+<!--             alt="User Image" />-->
+    </div>
+    <div class="My_Profile__Box">
+      <h2 class="My_Profile__Box--title">Information</h2>
+      <div class="My_Profile__Box--Info">
+        <div class="Box_Info Name">
+          <h3 class="Box_Info__Key">Name</h3>
+          <p class="Box_Info__Value">{{ this.MyAccount.Get_Information().Full_Name }}</p>
+          <ul>
+            <li class="Edit"><i class="fa-solid fa-pen-to-square Global_Icon"
+                  (click)="this.FormattingName()"
+            ></i></li>
+          </ul>
+        </div>
+        <div class="Box_Info Email">
+          <h3 class="Box_Info__Key">Email</h3>
+          <p class="Box_Info__Value">{{ this.MyAccount.Get_Information().email }}</p>
+          <ul>
+            <li class="Edit"><i class="fa-solid fa-pen-to-square Global_Icon"
+                              (click)="this.FormattingEmail()"
+            ></i></li>
+          </ul>
+        </div>
+        <div *ngIf="this.MyAccount.Get_Information().phone" class="Box_Info Phone">
+          <h3 class="Box_Info__Key">Phone</h3>
+          <p class="Box_Info__Value">{{this.MyAccount.Get_Information().phone}}</p>
+          <ul>
+            <li class="Edit"><i class="fa-solid fa-pen-to-square Global_Icon"
+                        (click)="this.FormattingPhone()"
+            ></i></li>
+            <li class="Remove"><i class="fa-solid fa-trash Global_Icon"
+                        (click)="this.FormattingRemovePhone()"
+            ></i></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="My_Profile__Box My_Profile__Box--More_Options">
+      <button class="Global-Button Password_Option"
+              (click)="this.FormattingPassword()"
+      >Change Password</button>
+      <button class="Global-Button NewNumber_Option"
+              [disabled]="this.MyAccount.Get_Information().phone"
+              (click)="this.FormattingPhone()"
+      >Add New Number</button>
+      <button class="Global-Button Remove_Option"
+              (click)="this.FormattingDestroy()"
+      >Remove Account</button>
+    </div>
+  </div>
+  <PopUp #PopUp='PopUp'></PopUp>
+</section>

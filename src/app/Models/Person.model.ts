@@ -15,10 +15,10 @@ export class PersonModel {
 
   private Email : string ;
 
-  private Phones : number[] ;
+  private Phone : number | undefined ;
 
   constructor(id : number , token : string , f_name : string , l_name : string , image :string
-              , type : Person , email : string , phone ?: number[]) {
+              , type : Person , email : string , phone ?: number) {
     this.Person_ID = id ;
     this.Token_ID = token ;
     this.Person_Type = type ;
@@ -26,10 +26,7 @@ export class PersonModel {
     this.Last_Name = l_name ;
     this.Image_Path = image ;
     this.Email = email ;
-    if(phone != undefined)
-      this.Phones = phone ;
-    else
-      this.Phones = [] ;
+    this.Phone = phone ;
   }
 
   public GetToken() : string {
@@ -52,21 +49,23 @@ export class PersonModel {
     let l_name  = this.Last_Name ;
     let image = this.Image_Path ;
     let email = this.Email ;
-    return new PersonModel(id , token , f_name , l_name , image , type , email) ;
+    let phone = this.Phone ;
+    return new PersonModel(id , token , f_name , l_name , image , type , email , phone) ;
   }
 
   public Get_Information() {
     return {
       First_Name : this.First_Name ,
       Last_Name : this.Last_Name ,
+      Full_Name : this.First_Name.concat(' ' , this.Last_Name) ,
       Image : this.Image_Path ,
-      email : this.Image_Path ,
-      phones : this.Phones
+      email : this.Email ,
+      phone : this.Phone
     } ;
   }
 
   public Update_Information(f_name ?: string , l_name ?: string , image ?: string , email ?: string
-                            , phone ?: number[]) {
+                            , phone ?: number) {
     if(f_name != undefined)
       this.First_Name = f_name ;
     if(l_name != undefined)
@@ -76,7 +75,7 @@ export class PersonModel {
     if(email != undefined)
       this.Email = email ;
     if(phone != undefined)
-      this.Phones = phone ;
+      this.Phone = phone ;
   }
 
   public static Convert2Person(Type : string) : Person {

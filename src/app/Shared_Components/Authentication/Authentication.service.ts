@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {BehaviorSubject, map, take} from "rxjs";
+import {BehaviorSubject, map, Observable, take} from "rxjs";
 import {Person, PersonModel} from "../../Models/Person.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Data_SharingModel, Process_State} from "../../Models/Data_Sharing.model";
@@ -12,7 +12,7 @@ interface PersonData_Response {
   email : string ;
   path_photo : string ;
   role : string ;
-  phone : number[] | null ;
+  phone : string | null ;
   updated_at : string ;
   created_at : string ;
   id : number ;
@@ -26,6 +26,7 @@ interface ErrorValidate_Response {
   password ?: string[] ;
   password_c ?: string[] ;
   role ?: string[] ;
+  phone ?: string[] ;
 }
 
 interface BackEnd_Response {
@@ -65,7 +66,7 @@ export interface VerifyData {
 @Injectable({providedIn : "root"})
 export class AuthenticationService {
 
-  private Account : BehaviorSubject<PersonModel | null> ;
+  private readonly Account : BehaviorSubject<PersonModel | null> ;
 
   private readonly ReferenceStorage : string ;
 
@@ -147,13 +148,14 @@ export class AuthenticationService {
   public SignOut() {
     localStorage.removeItem(this.ReferenceStorage) ;
     this.Account.next(null) ;
+    /* Connect With SignOut Back-End */
   }
 
   public Auto_SignIn() {
-    const DataJson : string | null = localStorage.getItem(this.ReferenceStorage);
-    if(DataJson == null)
-      return;
-    return this.GetInformation(DataJson).pipe(take(1)) ;
+    let Save = this.IsSaveToken();
+    if(Save.IsSave)
+      return this.GetInformation(Save.Token as string).pipe(take(1)) ;
+    return ;
   }
 
   public Send_Email(Email : string) {
@@ -309,7 +311,7 @@ export class AuthenticationService {
     let Options = {
       headers : new HttpHeaders({"Authorization" : `Bearer ${Token}`})
     } ;
-    return this.Http.post<BackEnd_Response>(`${Data_SharingModel.BackEnd_URL}api/profile/show` , null ,
+    return this.Http.get<BackEnd_Response>(`${Data_SharingModel.BackEnd_URL}api/profile/show` ,
       Options).pipe(take(1) , map(Response => {
         let Result_Process : ResultProcess = {
         Result : Process_State.UnKnown
@@ -340,7 +342,7 @@ export class AuthenticationService {
   private static DataProcess(Data : PersonData_Response) : PersonModel {
     let Person_Image = Data_SharingModel.BackEnd_URL.concat(Data.path_photo) ;
     let Person_Type = PersonModel.Convert2Person(Data.role) ;
-    let Person_Phone = (Data.phone != null) ? Data.phone : undefined
+    let Person_Phone = (Data.phone != null) ? +Data.phone : undefined ;
     return new PersonModel(Data.id , Data.token , Data.first_name ,
       Data.last_name , Person_Image , Person_Type , Data.email , Person_Phone );
   }
@@ -366,6 +368,9 @@ export class AuthenticationService {
         case "password":
           Type = ErrorType.Password ;
           break ;
+        case "phone":
+          Type = ErrorType.Phone ;
+          break ;
       }
       Error_Description = {
         Type : Type ,
@@ -378,9 +383,136 @@ export class AuthenticationService {
 
   private SendAccount(Data_Person : PersonModel , KeepAccount : boolean = false) {
     if(KeepAccount)
-      localStorage.setItem(this.ReferenceStorage , Data_Person.GetClearToken());
+      this.SaveToken(Data_Person.GetClearToken());
     this.Account.next(Data_Person);
   }
+
+  private SaveToken(Token : string) {
+    localStorage.setItem(this.ReferenceStorage , Token);
+  }
+
+  private IsSaveToken() {
+    let Result : {
+      IsSave : boolean ,
+      Token ?: string
+    } ;
+    const DataJson : string | null = localStorage.getItem(this.ReferenceStorage);
+    Result = {
+      IsSave : (DataJson != null)
+    } ;
+    if(Result.IsSave)
+      Result.Token = DataJson as string ;
+    return Result ;
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+
+  public UpdateAccount( Info : {
+                          Name ?: {
+                            first_name: string,
+                            last_name: string
+                          } ,
+                          Password ?: {
+                            Old : string ,
+                            New : string
+                          } ,
+                          Email ?: string ,
+                          Phone ?: string
+                        }) {
+    if(this.Account == null)
+      return null ;
+    let Options = {
+      headers : new HttpHeaders({"Authorization" : `${this.Account.getValue()?.GetToken()}`})
+    } ;
+    let ProcessObservable !: Observable<BackEnd_Response> ;
+    let SaveCurrenToken = true ;
+    if(Info.Name) {
+      ProcessObservable = this.Http.put<BackEnd_Response>(`${Data_SharingModel.BackEnd_URL}api/profile/edit`
+        , Info.Name , Options) ;
+    }
+    else if(Info.Password) {
+      ProcessObservable = this.Http.put<BackEnd_Response>(`${Data_SharingModel.BackEnd_URL}api/profile/edit/password` , {
+        newpassword : Info.Password.New ,
+        password : Info.Password.Old
+      } , Options);
+      SaveCurrenToken = false ;
+    }
+    else if(Info.Email) {
+      ProcessObservable = this.Http.put(`${Data_SharingModel.BackEnd_URL}api/profile/edit/email` , {
+        email : Info.Email
+      } , Options);
+      SaveCurrenToken = false ;
+    }
+    else if(Info.Phone) {
+      ProcessObservable = this.Http.put(`${Data_SharingModel.BackEnd_URL}api/profile/edit` , {
+        phone : Info.Phone
+      } , Options);
+    }
+    if(ProcessObservable == undefined)
+      return null ;
+    return ProcessObservable.pipe(take(1) , map(Response => {
+      let Result_Process : ResultProcess = {
+        Result : Process_State.UnKnown
+      } ;
+      if(Response.data) {
+        if(Response.data.user) {
+          if(SaveCurrenToken)
+            Response.data.user.token = (<PersonModel>this.Account.getValue()).GetClearToken() ;
+          else if(this.IsSaveToken().IsSave)
+            this.SaveToken(Response.data.user.token);
+          let Result = AuthenticationService.DataProcess(Response.data.user) ;
+          this.SendAccount(Result) ;
+          Result_Process.Data_Pass = {
+            Data_Type : DataType.DataUser
+          } ;
+          Result_Process.Result = Process_State.Succeed ;
+        }
+        if(Response.data.message) {
+          Result_Process.Data_Pass = {
+            Data_Type : DataType.message ,
+            Get_Data : Response.data.message
+          } ;
+          Result_Process.Result = Process_State.Succeed ;
+        }
+      }
+      else if(Response.errors) {
+        if(Response.errors.validate) {
+          let Result = AuthenticationService.ErrorValidateProcess(Response.errors.validate) ;
+          Result_Process.Result = Process_State.Failed ;
+          Result_Process.Data_Fail = {
+            Fail_Type : Result.Type ,
+            Fail_Reason : Result.Reason
+          } ;
+        }
+      }
+      return Result_Process ;
+    }));
+  }
+
+  public RemoveAccount() {
+    let Options = {
+      headers : new HttpHeaders({"Authorization" : `${this.Account.getValue()?.GetToken()}`})
+    } ;
+    return this.Http.delete<BackEnd_Response>(`${Data_SharingModel.BackEnd_URL}api/profile/destroy` , Options)
+      .pipe(take(1) , map(Response => {
+        let Result_Process : ResultProcess = {
+          Result : Process_State.UnKnown
+        } ;
+        if(Response.data) {
+          if(Response.data.message) {
+            Result_Process.Data_Pass = {
+              Data_Type : DataType.message ,
+              Get_Data : Response.data.message
+            } ;
+            Result_Process.Result = Process_State.Succeed ;
+            this.Account.next(null)
+          }
+        }
+        return Result_Process ;
+      }));
+  }
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 

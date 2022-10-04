@@ -1,0 +1,45 @@
+<div class="PopUp PopUp--View_Steps"
+     [ngClass]="{Show_PopUp : this.View}"
+>
+  <div class="PopUp__Overlay">
+    <div class="PopUp__Container">
+      <div class="PopUp__Title">
+        <h1>{{this.Title}}</h1>
+      </div>
+      <div class="PopUp__Content" >
+        <p class="Global_Paragraph Text" *ngIf="this.Paragraph">
+         {{this.Paragraph}}
+        </p>
+        <form #InfoForm='ngForm' *ngIf="Form">
+          <div class="Permission__Box--Input">
+            <div class="Input-Text WithBorder" *ngFor="let Input of this.Form.Input">
+              <input [type]="Input.Type" [placeholder]="Input.PlaceHolder"
+                     [ngModel]="Input.InitialValue" [name]="Input.Name"
+                     [pattern]="Input.Pattern" [required]="Input.Require"
+              />
+              <i class="fa-solid fa-circle-exclamation Input_Error"></i>
+            </div>
+          </div>
+        </form>
+        <p class="Global_Paragraph Error" *ngIf="this.ErrorText">
+          {{this.ErrorText}}
+        </p>
+      </div>
+      <div class="PopUp__Buttons" >
+        <button class="Global-Button PopUp__Off Cancel"
+                [disabled]="this.GetState()"
+                (click)="this.ClosePopUp()"
+        >Cancel</button>
+        <button class="Global-Button PopUp__Off"
+                *ngFor="let Button of this.Button"
+                (click)="Button.Method()"
+                [disabled]="this.GetState()"
+        >{{Button.Content}}</button>
+        <button class="Global-Button PopUp__Off"
+                *ngIf="this.Form" (click)="this.SendInfo()"
+                [disabled]="this.GetState()"
+        >{{this.Form.ProcessName}}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {CommonModule} from "@angular/common";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +12,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {VerifyComponent} from "./Shared_Components/Authentication/Verify/Verify.component";
 import {RecoverAccountComponent} from "./Shared_Components/Authentication/RecoverAccount/RecoverAccount.component";
 import {AuthenticationComponent} from "./Shared_Components/Authentication/Authentication.component";
+import {ProfileComponent} from "./Shared_Components/Authentication/Profile/Profile.component";
+import {PupUpComponent} from "./Shared_Components/PopUp/PopUp.component";
+
 
 
 @NgModule({
@@ -21,10 +25,13 @@ import {AuthenticationComponent} from "./Shared_Components/Authentication/Authen
     Sign_InComponent ,
     Sign_UpComponent ,
     VerifyComponent ,
-    RecoverAccountComponent
+    RecoverAccountComponent ,
+    ProfileComponent ,
+    PupUpComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule ,
     AppRoutingModule ,
     FormsModule ,
     HttpClientModule
