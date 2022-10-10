@@ -9,11 +9,17 @@ import {Observable} from "rxjs";
 })
 export class AppComponent {
 
+
+  ObjectPagination = {
+    TotalPage : 19 ,
+    PageOfPart : 4 ,
+    WantedPage : 1
+  }
+
   constructor(private AuthenticationProcesses : AuthenticationService) {
     let ObserveAccount = this.AuthenticationProcesses.Auto_SignIn() ;
     if(ObserveAccount instanceof Observable)
       ObserveAccount.subscribe(Value => {});
   }
-
 
 }

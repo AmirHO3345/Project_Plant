@@ -1,7 +1,10 @@
 
+
 export class Data_SharingModel {
 
   static BackEnd_URL : string = "http://localhost/Articles-Management-System/public/" ;
+
+  static PathPhotoDefault : string = "Uploads/Users/Default-Photo.png" ;
 
   static ReturnPattern(Type : Pattern_Type) : string {
     switch (Type) {

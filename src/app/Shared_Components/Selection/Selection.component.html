@@ -1,0 +1,18 @@
+<div class="Select" [ngClass]="{Show : this.ShowOptions}"
+     *ngIf="this.Options.length != 0"
+>
+  <div class="SelectField" (click)="this.ChangeState()" >
+    <i class="fa-solid fa-caret-down Global_Icon Select__Arrow"></i>
+    <input type="text" class="Select__Selected"
+           [placeholder]="this.PlaceHolder"
+           [ngModel]="this.SelectText" readonly>
+  </div>
+  <div class="Select__Options">
+    <div class="Select__Option"
+         *ngFor="let Option of this.Options"
+         (click)="this.SendValue(Option.NameOption)" >
+      <i *ngIf="Option.IconFontAwesome" [class]="Option.IconFontAwesome"></i>
+      {{Option.NameOption}}
+    </div>
+  </div>
+</div>

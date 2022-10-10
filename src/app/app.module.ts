@@ -14,6 +14,12 @@ import {RecoverAccountComponent} from "./Shared_Components/Authentication/Recove
 import {AuthenticationComponent} from "./Shared_Components/Authentication/Authentication.component";
 import {ProfileComponent} from "./Shared_Components/Authentication/Profile/Profile.component";
 import {PupUpComponent} from "./Shared_Components/PopUp/PopUp.component";
+import {CategoriesComponent} from "./User/CategoriesPage/Categories.component";
+import {PaginationComponent} from "./Shared_Components/Pagination/Pagination.component";
+import {SelectionComponent} from "./Shared_Components/Selection/Selection.component";
+import {CategoryComponent} from "./User/CategoriesPage/Category_Item/Category.component";
+import {SearchFieldComponent} from "./Shared_Components/SearchField/SearchField.component";
+import {LoaderComponent} from "./Shared_Components/Loader/Loader.component";
 
 
 
@@ -27,7 +33,13 @@ import {PupUpComponent} from "./Shared_Components/PopUp/PopUp.component";
     VerifyComponent ,
     RecoverAccountComponent ,
     ProfileComponent ,
-    PupUpComponent
+    PupUpComponent ,
+    CategoriesComponent ,
+    PaginationComponent ,
+    SelectionComponent ,
+    CategoryComponent ,
+    SearchFieldComponent ,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,7 @@
+<div class="Search">
+  <span class="Search__Icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+  <input type="text" [placeholder]="this.PlaceHolder"
+         (keyup)="this.WriteSearch($event)"
+         [ngModel]="this.SearchText"
+  >
+</div>

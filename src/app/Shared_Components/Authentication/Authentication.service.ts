@@ -27,6 +27,7 @@ interface ErrorValidate_Response {
   password_c ?: string[] ;
   role ?: string[] ;
   phone ?: string[] ;
+  path_photo ?: string[] ;
 }
 
 interface BackEnd_Response {
@@ -39,8 +40,9 @@ interface BackEnd_Response {
     validate ?: ErrorValidate_Response ,
     "email.active" ?: string ,
     code ?: string ,
-    token ?: string
-  }
+    token ?: string ,
+    'date-empty' ?: string
+  } ;
 }
 
 interface ResultProcess {
@@ -340,11 +342,10 @@ export class AuthenticationService {
   }
 
   private static DataProcess(Data : PersonData_Response) : PersonModel {
-    let Person_Image = Data_SharingModel.BackEnd_URL.concat(Data.path_photo) ;
     let Person_Type = PersonModel.Convert2Person(Data.role) ;
-    let Person_Phone = (Data.phone != null) ? +Data.phone : undefined ;
+    let Person_Phone = (Data.phone != null) ? Data.phone : null ;
     return new PersonModel(Data.id , Data.token , Data.first_name ,
-      Data.last_name , Person_Image , Person_Type , Data.email , Person_Phone );
+      Data.last_name , Data.path_photo , Person_Type , Data.email , Person_Phone );
   }
 
   private static ErrorValidateProcess(ErrorHandle : ErrorValidate_Response) {
@@ -417,17 +418,20 @@ export class AuthenticationService {
                             New : string
                           } ,
                           Email ?: string ,
-                          Phone ?: string
+                          Phone ?: string ,
+                          Image ?: FormData
                         }) {
     if(this.Account == null)
       return null ;
     let Options = {
-      headers : new HttpHeaders({"Authorization" : `${this.Account.getValue()?.GetToken()}`})
+      headers : new HttpHeaders({"Authorization" : `${this.Account.getValue()?.GetToken()}`
+        , enctype : "multipart/form-data"
+      })
     } ;
     let ProcessObservable !: Observable<BackEnd_Response> ;
     let SaveCurrenToken = true ;
     if(Info.Name) {
-      ProcessObservable = this.Http.put<BackEnd_Response>(`${Data_SharingModel.BackEnd_URL}api/profile/edit`
+      ProcessObservable = this.Http.post<BackEnd_Response>(`${Data_SharingModel.BackEnd_URL}api/profile/edit`
         , Info.Name , Options) ;
     }
     else if(Info.Password) {
@@ -438,15 +442,18 @@ export class AuthenticationService {
       SaveCurrenToken = false ;
     }
     else if(Info.Email) {
-      ProcessObservable = this.Http.put(`${Data_SharingModel.BackEnd_URL}api/profile/edit/email` , {
+      ProcessObservable = this.Http.post(`${Data_SharingModel.BackEnd_URL}api/profile/edit/email` , {
         email : Info.Email
       } , Options);
       SaveCurrenToken = false ;
     }
     else if(Info.Phone) {
-      ProcessObservable = this.Http.put(`${Data_SharingModel.BackEnd_URL}api/profile/edit` , {
+      ProcessObservable = this.Http.post(`${Data_SharingModel.BackEnd_URL}api/profile/edit` , {
         phone : Info.Phone
       } , Options);
+    }
+    else if(Info.Image) {
+      ProcessObservable = this.Http.post(`${Data_SharingModel.BackEnd_URL}api/profile/edit` , Info.Image , Options);
     }
     if(ProcessObservable == undefined)
       return null ;
@@ -454,6 +461,7 @@ export class AuthenticationService {
       let Result_Process : ResultProcess = {
         Result : Process_State.UnKnown
       } ;
+      console.log(Response);
       if(Response.data) {
         if(Response.data.user) {
           if(SaveCurrenToken)
@@ -489,6 +497,64 @@ export class AuthenticationService {
     }));
   }
 
+  public RemoveInfo(Info : {
+    Image ?: boolean ,
+    Phone ?: boolean
+  }) {
+    if(this.Account == null)
+      return null ;
+    let OptionRemove : {
+      phone ?: boolean ,
+      path_photo ?: boolean
+    } = {} ;
+    if(Info.Phone)
+      OptionRemove.phone = true ;
+    else if (Info.Image)
+      OptionRemove.path_photo = true ;
+    let Options = {
+      headers : new HttpHeaders({"Authorization" : `${this.Account.getValue()?.GetToken()}`}) ,
+      body : {...OptionRemove}
+    } ;
+    return this.Http.delete<BackEnd_Response>(`${Data_SharingModel.BackEnd_URL}api/profile/clear` , Options)
+      .pipe(take(1) , map(Response => {
+        console.log(Response);
+        let Result_Process : ResultProcess = {
+          Result : Process_State.UnKnown
+        } ;
+        if(Response.data) {
+          if(Response.data.message) {
+            Result_Process.Data_Pass = {
+              Data_Type : DataType.message ,
+              Get_Data : Response.data.message
+            } ;
+            Result_Process.Result = Process_State.Succeed ;
+            if(Info.Phone) {
+              let UserData = this.Account.getValue() as PersonModel ;
+              UserData.Update_Information({
+                phone : null
+              });
+              this.SendAccount(UserData);
+            } else if(Info.Image) {
+              (this.Account.getValue() as PersonModel).Update_Information({
+                image : Data_SharingModel.PathPhotoDefault
+              });
+              this.SendAccount(<PersonModel>this.Account.getValue())
+            }
+          }
+        } else if(Response.errors) {
+          if(Response.errors.validate) {
+            let Result = AuthenticationService.ErrorValidateProcess(Response.errors.validate) ;
+            Result_Process.Result = Process_State.Failed ;
+            Result_Process.Data_Fail = {
+              Fail_Type : Result.Type ,
+              Fail_Reason : Result.Reason
+            }
+          }
+        }
+        return Result_Process ;
+      }));
+  }
+
   public RemoveAccount() {
     let Options = {
       headers : new HttpHeaders({"Authorization" : `${this.Account.getValue()?.GetToken()}`})
@@ -513,6 +579,8 @@ export class AuthenticationService {
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
+
+  // CheckAccount For Hack :)
 }
 
 

@@ -1,0 +1,30 @@
+.Search {
+  position: relative ;
+  width : 100% ;
+  margin-bottom: 20px ;
+}
+
+.Search input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  padding: 10px 50px 10px 10px;
+  font-size: 16px;
+  font-weight: 500;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-color: #f7f9fa ;
+  transition: all 0.3s ease;
+}
+
+.Search input:focus {
+  border-color : var(--Main-Color) ;
+}
+
+.Search__Icon {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color : #adadad ;
+}

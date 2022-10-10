@@ -1,0 +1,37 @@
+<section class="Section Categories">
+  <div class="Section__Header Categories__Header">
+    <h1>Categories</h1>
+  </div>
+  <div class="Container Categories__Container">
+    <div class="Categories__SearchBox Search">
+      <div class="Search__Form">
+        <SearchField [Initialization]="{ PlaceHolder : 'Search For Any Categories' , TimeWait : 500 , ChangeManual : true}"
+                     [ForceValue]="this.GetSearchText()"
+                     (SearchOut)="this.AdjustmentName($event)"
+        ></SearchField>
+        <div class="Search__Options">
+          <Selection *ngFor="let Selector of this.GetSelector()"
+                     [Initialization]="this.InitializeSelector(Selector.Name)"
+                     [ForceValue]="Selector.Reference"
+                     (Result)="this.AdjustmentSelector(Selector.Name , $event)"
+          ></Selection>
+        </div>
+      </div>
+      <div class="Search__Path" style="display: none">
+        Tags
+      </div>
+    </div>
+    <div class="Categories__Items" *ngIf="!this.IsLoading && this.Categories.length != 0" >
+      <Category
+        *ngFor="let category of this.Categories"
+        [Information]="category"
+        (Result)="this.Adjustment_ID($event , category)"
+      ></Category>
+    </div>
+    <div class="Categories__NotFound" *ngIf="!this.IsLoading && this.Categories.length == 0" >
+      <span><i class="fa-solid fa-heart-crack"></i></span>
+      <p class="Global_Paragraph"> Sorry , That no results were found </p>
+    </div>
+    <Pagination [Connection]="this.GetConnectPagination()"></Pagination>
+  </div>
+</section>

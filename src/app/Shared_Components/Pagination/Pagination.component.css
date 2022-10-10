@@ -1,0 +1,55 @@
+.Pagination .Pagination__List {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap ;
+  align-items: center;
+  padding: 30px 20px;
+  gap: 20px;
+  border-top: 2px solid #777;
+}
+
+.Pagination__List .Pagination__Number {
+  --ValueSize : 40px ;
+  width : var(--ValueSize) ;
+  height : var(--ValueSize) ;
+  line-height: var(--ValueSize) ;
+  text-align: center ;
+}
+
+.Pagination__List .Pagination__Number a {
+  display: block ;
+  color : #777 ;
+  font-weight: 600 ;
+  border-radius: 50% ;
+  cursor: pointer ;
+  transition: var(--Move_Speed) ;
+  background-color: #d3d3d3 ;
+}
+
+.Pagination__List .Pagination__Number a:hover ,
+.Pagination__List .Pagination__Number a.Active {
+  background-color: var(--Main-Color) ;
+  color : #fff ;
+}
+
+.Pagination__List .Pagination__Previous a ,
+.Pagination__List .Pagination__Next a {
+  color : var(--Main-Color) ;
+  letter-spacing: 2px ;
+  cursor: pointer ;
+}
+
+.Pagination__List .Pagination__Previous {
+  margin-right: 30px ;
+}
+
+.Pagination__List .Pagination__Next {
+  margin-left : 30px ;
+}
+
+@media (max-width: 676px) {
+  .Pagination .Pagination__List {
+    gap: 10px ;
+  }
+}

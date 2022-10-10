@@ -5,6 +5,7 @@ import {Sign_InComponent} from "./Shared_Components/Authentication/Sign-In/Sign_
 import {Sign_UpComponent} from "./Shared_Components/Authentication/Sign-Up/Sign-Up.component";
 import {RecoverAccountComponent} from "./Shared_Components/Authentication/RecoverAccount/RecoverAccount.component";
 import {ProfileComponent} from "./Shared_Components/Authentication/Profile/Profile.component";
+import {CategoriesComponent} from "./User/CategoriesPage/Categories.component";
 
 const routes: Routes = [
   {path : '' , redirectTo : 'Profile' , pathMatch : "full" } ,
@@ -14,7 +15,8 @@ const routes: Routes = [
       {path : 'SignUp' , component : Sign_UpComponent} ,
       {path : 'RecoverAccount' , component : RecoverAccountComponent} ,
     ]} ,
-  {path : 'Profile' , component : ProfileComponent}
+  {path : 'Profile' , component : ProfileComponent} ,
+  {path : 'Categories' , component : CategoriesComponent} ,
 ] ;
 
 @NgModule({

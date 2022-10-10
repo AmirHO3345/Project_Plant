@@ -5,10 +5,9 @@
   <div class="Container My_Profile__Container">
     <div class="My_Profile__ImageUser">
       <div class="My_Profile__ImageUser">
-          <input type="file" id="Change_Image_User" class="Switch_Button" accept="image/jpeg , image/png"
-                 (change)="this.CheckImageDetails($event)"
-          />
-        <img src="https://elzerowebschool.github.io/HTML_And_CSS_Template_Two/images/skills-01.jpg"
+        <input type="file" id="Change_Image_User" class="Switch_Button" accept="image/jpeg , image/png"
+                 name="path_photo" (change)="this.CheckImageDetails($event)"/>
+        <img [src]="this.MyAccount.Get_Information().Image.Path"
              alt="User Image" />
         <ul>
           <li class="Edit">
@@ -16,8 +15,8 @@
               <i class="fa-solid fa-pen-to-square Global_Icon"></i>
             </label>
           </li>
-          <li class="Remove"><i class="fa-solid fa-trash Global_Icon"
-              (click)="this.FormattingRemovePhoto()"></i></li>
+          <li class="Remove" *ngIf="!this.MyAccount.Get_Information().Image.IsDefault"><i class="fa-solid fa-trash Global_Icon"
+              (click)="this.FormattingRemove({Image : true})"></i></li>
         </ul>
       </div>
 <!--        <img [src]="this.MyAccount.Get_Information().Image"-->
@@ -44,7 +43,7 @@
             ></i></li>
           </ul>
         </div>
-        <div *ngIf="this.MyAccount.Get_Information().phone" class="Box_Info Phone">
+        <div *ngIf="this.MyAccount.Get_Information().phone != null" class="Box_Info Phone">
           <h3 class="Box_Info__Key">Phone</h3>
           <p class="Box_Info__Value">{{this.MyAccount.Get_Information().phone}}</p>
           <ul>
@@ -52,7 +51,7 @@
                         (click)="this.FormattingPhone()"
             ></i></li>
             <li class="Remove"><i class="fa-solid fa-trash Global_Icon"
-                        (click)="this.FormattingRemovePhone()"
+                        (click)="this.FormattingRemove({Phone : true})"
             ></i></li>
           </ul>
         </div>

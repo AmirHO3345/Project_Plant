@@ -1,0 +1,38 @@
+<div class="Category" *ngIf="this.CategoryInfo">
+  <div class="Category__Image">
+    <img [src]="this.CategoryInfo.Get_Information().Photo" alt="CategoryImage">
+    <ul class="Category__Options">
+      <li *ngIf="this.CategoryInfo.IsParent()"
+      ><a class="Global-Button"
+              (click)="this.SendShowCategoryCommand()"
+      >View Their Categories</a></li>
+      <li *ngIf="this.CategoryInfo.Get_Information().Articles != 0"
+      ><a class="Global-Button"
+              (click)="this.SendShowArticleCommand()"
+      >View Their Article</a></li>
+    </ul>
+  </div>
+  <div class="Category__Text">
+    <h2>{{this.CategoryInfo.Get_Information().Category_Name}}</h2>
+    <p class="Global_Paragraph">
+      {{this.CategoryInfo.Get_Information().Category_Description}}
+    </p>
+  </div>
+  <div class="Category__Details">
+    <div class="Category__Info">
+      <div class="Value">
+        {{this.CountUnit(this.CategoryInfo.Get_Information().Articles).Count}}
+        <span class="Unit">
+          {{this.CountUnit(this.CategoryInfo.Get_Information().Articles).Symbol}}
+        </span></div>
+      <div class="Info">Articles</div>
+    </div>
+    <div class="Category__Info" *ngIf="this.CategoryInfo.Get_Information().CategoryChildren != null">
+      <div class="Value">{{this.CountUnit(this.CategoryInfo.Get_Information().CategoryChildren || 88888).Count}}
+      <span class="Unit">
+        {{this.CountUnit(this.CategoryInfo.Get_Information().CategoryChildren || 88888).Symbol}}
+      </span></div>
+      <div class="Info">Sub Category</div>
+    </div>
+  </div>
+</div>

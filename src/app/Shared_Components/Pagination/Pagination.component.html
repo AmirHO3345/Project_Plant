@@ -1,0 +1,27 @@
+<div class="Pagination">
+  <ul class="Pagination__List">
+    <ng-template [ngIf]="this.PageCoefficient >= 1">
+      <li class="Pagination__Previous"><a
+          (click)="this.SpeedMove(false)"
+      >Prev</a></li>
+      <li class="Pagination__Number"><a
+          (click)="this.SendingPage(1)"
+      >1</a></li>
+      <li class="Pagination__Continue">....</li>
+    </ng-template>
+    <li class="Pagination__Number" *ngFor="let Page of this.PaginationItems ; let PageIndex=index" >
+      <a (click)="this.SendingPage((this.PageCoefficient * this.PageOfPart) + PageIndex + 1)"
+         [ngClass]="{Active : this.PaginationItems[PageIndex]}"
+    >{{(this.PageCoefficient * this.PageOfPart) + PageIndex + 1}}</a></li>
+    <ng-template [ngIf]="(this.PaginationItems.length == this.PageOfPart) &&
+                 this.TotalPage - (this.PageCoefficient * this.PageOfPart) >
+                 this.PageOfPart" >
+      <li class="Pagination__Continue">....</li>
+      <li class="Pagination__Number"><a (click)="this.SendingPage(this.TotalPage)">
+        {{this.TotalPage}}</a></li>
+      <li class="Pagination__Next"><a
+          (click)="this.SpeedMove(true)"
+      >Next</a></li>
+    </ng-template>
+  </ul>
+</div>

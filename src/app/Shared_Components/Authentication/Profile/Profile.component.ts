@@ -19,8 +19,10 @@ export class ProfileComponent {
 
   constructor(private AuthenticationProcesses : AuthenticationService) {
     this.AuthenticationProcesses.GetObservableAccount().subscribe(Value => {
-      if(Value != null)
+      if(Value != null){
         this.MyAccount = Value  ;
+        console.log(Value.Get_Information().Image.IsDefault);
+      }
     });
   }
 
@@ -255,7 +257,7 @@ export class ProfileComponent {
                 this.FormattingErrorPhoto("The Dimension Photo Is Very Large , it must at lest 300 x 300 ") ;
                 return ;
               }
-              this.SendImage(image.src) ;
+              this.SendImage(ImageFile) ;
             }
           }
         };
@@ -263,27 +265,30 @@ export class ProfileComponent {
       }
   }
 
-  FormattingRemovePhone() {
-    this.InfoForm.OpenNotification('Remove Phone' ,
-      "Are You Sure You Want To Remove This Phone Number " + this.MyAccount.Get_Information().phone
+  FormattingRemove(Type : {
+    Phone ?: boolean ,
+    Image ?: boolean
+  }) {
+    this.InfoForm.OpenNotification(`Remove ${(Type.Phone) ? 'Phone' : 'Image'}` ,
+      `Are You Sure You Want To Remove This ${(Type.Phone) ? 'Phone' : 'Image'}`
       , [
         {
           Content : "Sure" ,
           Method : ()=>{
-            console.log("ttt");
-          }
-        }
-      ]);
-  }
-
-  FormattingRemovePhoto() {
-    this.InfoForm.OpenNotification('Remove Photo' ,
-      "Are You Sure You Want To Remove This Photo "
-      , [
-        {
-          Content : "Sure" ,
-          Method : ()=>{
-            console.log("ttt");
+            let Observe = this.AuthenticationProcesses.RemoveInfo({
+              ...Type
+            }) ;
+            if(Observe instanceof Observable)
+              Observe.subscribe(Value => {
+                switch(Value.Result) {
+                  case Process_State.Succeed :
+                    this.InfoForm.ClosePopUp();
+                    break ;
+                  case Process_State.Failed :
+                    this.InfoForm.ErrorOccur(Value.Data_Fail?.Fail_Reason || '');
+                    break ;
+                }
+              });
           }
         }
       ]);
@@ -313,8 +318,23 @@ export class ProfileComponent {
     ]);
   }
 
-  private SendImage(ImageBase64 : string) {
-
+  private SendImage(ImageFile : File) {
+    let ImageForm = new FormData() ;
+    ImageForm.append('path_photo' , ImageFile , ImageFile.name);
+    let ObserveBack = this.AuthenticationProcesses.UpdateAccount({
+      Image : ImageForm
+    }) ;
+    if(ObserveBack instanceof Observable)
+      ObserveBack.subscribe(Value => {
+        switch (Value.Result) {
+          case Process_State.Succeed:
+            console.log("True");
+            break ;
+          case Process_State.Failed :
+            this.FormattingErrorPhoto(Value.Data_Fail?.Fail_Reason || '') ;
+            break ;
+        }
+      });
   }
 
   private FormattingErrorPhoto(ErrorText : string) {
